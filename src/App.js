@@ -4,10 +4,21 @@ import './App.css';
 
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Initialize with a default theme. We'll load the saved theme on the client.
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
+    // This effect runs only on the client, after the initial render.
+    // It safely retrieves the theme from localStorage and updates the state.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []); // The empty dependency array ensures this effect runs only once.
+  
+  useEffect(() => {
     document.body.className = theme;
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -58,10 +69,10 @@ export default function Portfolio() {
             
             <div className="nav-right-group">
               <ul className="nav-menu">
-                <li><button onClick={() => scrollToSection('about')}>About</button></li>
-                <li><button onClick={() => scrollToSection('projects')}>Projects</button></li>
-                <li><button onClick={() => scrollToSection('skills')}>Skills</button></li>
-                <li><button onClick={() => scrollToSection('contact')}>Contact</button></li>
+                <li><a href="#about" onClick={() => scrollToSection('about')}>About</a></li>
+                <li><a href="#projects" onClick={() => scrollToSection('projects')}>Projects</a></li>
+                <li><a href="#skills" onClick={() => scrollToSection('skills')}>Skills</a></li>
+                <li><a href="#contact" onClick={() => scrollToSection('contact')}>Contact</a></li>
               </ul>
 
               <button onClick={toggleTheme} className="theme-btn">
@@ -75,10 +86,10 @@ export default function Portfolio() {
           </div>
 
           <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
-            <button onClick={() => scrollToSection('about')}>About</button>
-            <button onClick={() => scrollToSection('projects')}>Projects</button>
-            <button onClick={() => scrollToSection('skills')}>Skills</button>
-            <button onClick={() => scrollToSection('contact')}>Contact</button>
+            <a href="#about" onClick={() => scrollToSection('about')}>About</a>
+            <a href="#projects" onClick={() => scrollToSection('projects')}>Projects</a>
+            <a href="#skills" onClick={() => scrollToSection('skills')}>Skills</a>
+            <a href="#contact" onClick={() => scrollToSection('contact')}>Contact</a>
             <button onClick={toggleTheme} className="theme-btn-mobile">
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />} Switch Theme
             </button>
@@ -141,8 +152,8 @@ export default function Portfolio() {
           <h3 className="section-title">
             <span className="section-number">02.</span> Featured Projects
           </h3>
-          {projects.map((project, idx) => (
-            <div key={idx} className="project-card">
+          {projects.map((project) => (
+            <div key={project.title} className="project-card">
               <div className="project-header">
                 <h4 className="project-title">{project.title}</h4>
                 <a href={project.link} className="project-link">
@@ -155,8 +166,8 @@ export default function Portfolio() {
                 <span className="impact-text">{project.impact}</span>
               </div>
               <div className="tech-tags">
-                {project.technologies.map((tech, i) => (
-                  <span key={i} className="tech-tag">{tech}</span>
+                {project.technologies.map((tech) => (
+                  <span key={tech} className="tech-tag">{tech}</span>
                 ))}
               </div>
             </div>
@@ -173,8 +184,8 @@ export default function Portfolio() {
               <div key={category} className="skill-card">
                 <h4 className="skill-category">{category}</h4>
                 <ul className="skill-list">
-                  {items.map((skill, idx) => (
-                    <li key={idx}>
+                  {items.map((skill) => (
+                    <li key={skill}>
                       <span className="skill-dot"></span>
                       {skill}
                     </li>
@@ -198,7 +209,7 @@ export default function Portfolio() {
             <a href="mailto:nchiamerilyne@gmail.com" className="social-link">
               <Mail size={24} />
             </a>
-            <a href="https://github.com/Merilyne" className="social-link">
+            <a href="https://github.com/Merilyne" className="social-link" target="_blank" rel="noopener noreferrer">
               <Github size={24} />
             </a>
             <a href="https://www.linkedin.com/in/nchia-merilyne-337537297" className="social-link" target="_blank" rel="noopener noreferrer">
@@ -212,7 +223,7 @@ export default function Portfolio() {
 
         {/* Footer */}
         <footer className="footer">
-          <p>Built with React • © 2024 Merilyne Mbong</p>
+          <p>Built with React • © {new Date().getFullYear()} Merilyne Mbong</p>
         </footer>
       </div>
   );
