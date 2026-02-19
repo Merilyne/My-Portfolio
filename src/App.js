@@ -4,10 +4,21 @@ import './App.css';
 
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Initialize with a default theme. We'll load the saved theme on the client.
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
+    // This effect runs only on the client, after the initial render.
+    // It safely retrieves the theme from localStorage and updates the state.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []); // The empty dependency array ensures this effect runs only once.
+  
+  useEffect(() => {
     document.body.className = theme;
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -20,21 +31,21 @@ export default function Portfolio() {
       description: "A comprehensive mental health application available on both web and mobile platforms. Provides resources, mood tracking, and a supportive community.",
       technologies: ["React", "React Native", "Node.js", "Convex"],
       impact: "Created a cross-platform solution to promote mental wellness and accessibility.",
-      link: "#"
+      link: "https://example.com"
     },
     {
       title: "Music App",
       description: "A mobile music streaming application built with Expo and React Native, featuring a sleek and responsive UI designed with Tailwind CSS for a seamless user experience.",
       technologies: ["Expo", "React Native", "Tailwind CSS"],
       impact: "Designed a user-friendly interface for seamless music discovery and playback.",
-      link: "#"
+      link: "https://example.com"
     },
     {
       title: "Get Electric - E-commerce App",
       description: "An online shopping platform for electronics, built with Next.js for server-side rendering and a fast user experience. Firebase was used for the backend, handling authentication and database.",
       technologies: ["Next.js", "React", "Firebase", "Tailwind CSS"],
       impact: "Developed a performant e-commerce site with real-time data synchronization.",
-      link: "#"
+      link: "https://example.com"
     }
   ];
 
@@ -58,27 +69,27 @@ export default function Portfolio() {
             
             <div className="nav-right-group">
               <ul className="nav-menu">
-                <li><button onClick={() => scrollToSection('about')}>About</button></li>
-                <li><button onClick={() => scrollToSection('projects')}>Projects</button></li>
-                <li><button onClick={() => scrollToSection('skills')}>Skills</button></li>
-                <li><button onClick={() => scrollToSection('contact')}>Contact</button></li>
+                <li><a href="#about" onClick={() => scrollToSection('about')}>About</a></li>
+                <li><a href="#projects" onClick={() => scrollToSection('projects')}>Projects</a></li>
+                <li><a href="#skills" onClick={() => scrollToSection('skills')}>Skills</a></li>
+                <li><a href="#contact" onClick={() => scrollToSection('contact')}>Contact</a></li>
               </ul>
 
-              <button onClick={toggleTheme} className="theme-btn">
+              <button onClick={toggleTheme} className="theme-btn" aria-label="Toggle theme">
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
               </button>
             </div>
 
-            <button className="menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <button className="menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 
           <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
-            <button onClick={() => scrollToSection('about')}>About</button>
-            <button onClick={() => scrollToSection('projects')}>Projects</button>
-            <button onClick={() => scrollToSection('skills')}>Skills</button>
-            <button onClick={() => scrollToSection('contact')}>Contact</button>
+            <a href="#about" onClick={() => scrollToSection('about')}>About</a>
+            <a href="#projects" onClick={() => scrollToSection('projects')}>Projects</a>
+            <a href="#skills" onClick={() => scrollToSection('skills')}>Skills</a>
+            <a href="#contact" onClick={() => scrollToSection('contact')}>Contact</a>
             <button onClick={toggleTheme} className="theme-btn-mobile">
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />} Switch Theme
             </button>
@@ -141,11 +152,11 @@ export default function Portfolio() {
           <h3 className="section-title">
             <span className="section-number">02.</span> Featured Projects
           </h3>
-          {projects.map((project, idx) => (
-            <div key={idx} className="project-card">
+          {projects.map((project) => (
+            <div key={project.title} className="project-card">
               <div className="project-header">
                 <h4 className="project-title">{project.title}</h4>
-                <a href={project.link} className="project-link">
+                <a href={project.link} className="project-link" target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title}`}>
                   <ExternalLink size={20} />
                 </a>
               </div>
@@ -155,8 +166,8 @@ export default function Portfolio() {
                 <span className="impact-text">{project.impact}</span>
               </div>
               <div className="tech-tags">
-                {project.technologies.map((tech, i) => (
-                  <span key={i} className="tech-tag">{tech}</span>
+                {project.technologies.map((tech) => (
+                  <span key={tech} className="tech-tag">{tech}</span>
                 ))}
               </div>
             </div>
@@ -173,8 +184,8 @@ export default function Portfolio() {
               <div key={category} className="skill-card">
                 <h4 className="skill-category">{category}</h4>
                 <ul className="skill-list">
-                  {items.map((skill, idx) => (
-                    <li key={idx}>
+                  {items.map((skill) => (
+                    <li key={skill}>
                       <span className="skill-dot"></span>
                       {skill}
                     </li>
@@ -195,13 +206,13 @@ export default function Portfolio() {
             Feel free to reach out if you'd like to connect!
           </p>
           <div className="social-links">
-            <a href="mailto:nchiamerilyne@gmail.com" className="social-link">
+            <a href="mailto:nchiamerilyne@gmail.com" className="social-link" aria-label="Email">
               <Mail size={24} />
             </a>
-            <a href="https://github.com/Merilyne" className="social-link">
+            <a href="https://github.com/Merilyne" className="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
               <Github size={24} />
             </a>
-            <a href="https://www.linkedin.com/in/nchia-merilyne-337537297" className="social-link" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/nchia-merilyne-337537297" className="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <Linkedin size={24} />
             </a>
           </div>
@@ -212,7 +223,7 @@ export default function Portfolio() {
 
         {/* Footer */}
         <footer className="footer">
-          <p>Built with React • © 2024 Merilyne Mbong</p>
+          <p>Built with React • © {new Date().getFullYear()} Merilyne Mbong</p>
         </footer>
       </div>
   );
