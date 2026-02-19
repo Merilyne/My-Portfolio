@@ -31,21 +31,21 @@ export default function Portfolio() {
       description: "A comprehensive mental health application available on both web and mobile platforms. Provides resources, mood tracking, and a supportive community.",
       technologies: ["React", "React Native", "Node.js", "Convex"],
       impact: "Created a cross-platform solution to promote mental wellness and accessibility.",
-      link: "#"
+      link: "https://example.com"
     },
     {
       title: "Music App",
       description: "A mobile music streaming application built with Expo and React Native, featuring a sleek and responsive UI designed with Tailwind CSS for a seamless user experience.",
       technologies: ["Expo", "React Native", "Tailwind CSS"],
       impact: "Designed a user-friendly interface for seamless music discovery and playback.",
-      link: "#"
+      link: "https://example.com"
     },
     {
       title: "Get Electric - E-commerce App",
       description: "An online shopping platform for electronics, built with Next.js for server-side rendering and a fast user experience. Firebase was used for the backend, handling authentication and database.",
       technologies: ["Next.js", "React", "Firebase", "Tailwind CSS"],
       impact: "Developed a performant e-commerce site with real-time data synchronization.",
-      link: "#"
+      link: "https://example.com"
     }
   ];
 
@@ -75,12 +75,12 @@ export default function Portfolio() {
                 <li><a href="#contact" onClick={() => scrollToSection('contact')}>Contact</a></li>
               </ul>
 
-              <button onClick={toggleTheme} className="theme-btn">
+              <button onClick={toggleTheme} className="theme-btn" aria-label="Toggle theme">
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
               </button>
             </div>
 
-            <button className="menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <button className="menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -156,7 +156,7 @@ export default function Portfolio() {
             <div key={project.title} className="project-card">
               <div className="project-header">
                 <h4 className="project-title">{project.title}</h4>
-                <a href={project.link} className="project-link">
+                <a href={project.link} className="project-link" target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title}`}>
                   <ExternalLink size={20} />
                 </a>
               </div>
@@ -206,13 +206,13 @@ export default function Portfolio() {
             Feel free to reach out if you'd like to connect!
           </p>
           <div className="social-links">
-            <a href="mailto:nchiamerilyne@gmail.com" className="social-link">
+            <a href="mailto:nchiamerilyne@gmail.com" className="social-link" aria-label="Email">
               <Mail size={24} />
             </a>
-            <a href="https://github.com/Merilyne" className="social-link" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/Merilyne" className="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
               <Github size={24} />
             </a>
-            <a href="https://www.linkedin.com/in/nchia-merilyne-337537297" className="social-link" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/nchia-merilyne-337537297" className="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <Linkedin size={24} />
             </a>
           </div>
